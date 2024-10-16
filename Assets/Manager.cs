@@ -32,7 +32,7 @@ public class Manager : MonoBehaviour
         {
             for (int y = 0; y < GridSizeX; y++)
             {
-                #region Create Cell
+                #region Instantiate Cell
 
                 //Instantiate(Resources.Load<GameObject>("Cell"));
                 GameObject cell = new GameObject("Cell " + x + "," + y);
@@ -41,17 +41,10 @@ public class Manager : MonoBehaviour
                 cell.transform.position = new Vector3(x - GridSizeX / 2, y - GridSizeY / 2, 0);
                 sr.color = Color.black;
                 gridVisuals[x, y] = cell;
+
                 #endregion
-
-
             }
         }
-
-        gridVisuals[5, 5].GetComponent<SpriteRenderer>().color = Color.white;
-        gridVisuals[5, 6].GetComponent<SpriteRenderer>().color = Color.blue;
-
-
-
 
         gridData = new CellData[GridSizeX, GridSizeY];
 
@@ -67,6 +60,12 @@ public class Manager : MonoBehaviour
         gridData[4, 5].isAlive = true;
         gridData[4, 6].isAlive = true;
 
+        gridData[10, 5].isAlive = true;
+        gridData[10, 5].isAlive = true;
+        gridData[11, 6].isAlive = true;
+        gridData[11, 6].isAlive = true;
+        gridData[11, 7].isAlive = true;
+
         // gridData[4, 4].isAlive = true;
         // gridData[3, 4].isAlive = true;
 
@@ -75,7 +74,7 @@ public class Manager : MonoBehaviour
         //     gridData[i, 15].isAlive = true;
         // }
 
-
+        UpdateVisualsFromModelData();
 
     }
 
@@ -87,8 +86,6 @@ public class Manager : MonoBehaviour
         {
             generationNumber++;
             elapsedTimeSinceLastGeneration -= TimeToWaitForNextGeneration;
-
-            generationNumberText.text = "Generation #" + generationNumber;
 
             #region Process Generation On Model Data
 
@@ -110,32 +107,17 @@ public class Manager : MonoBehaviour
             }
 
             #endregion
+
+            UpdateVisualsFromModelData();
         }
-
-        #region Update Visuals
-
-        for (int x = 0; x < GridSizeX; x++)
-        {
-            for (int y = 0; y < GridSizeX; y++)
-            {
-                if (gridData[x, y].isAlive)
-                    gridVisuals[x, y].GetComponent<SpriteRenderer>().color = Color.white;
-                else
-                    gridVisuals[x, y].GetComponent<SpriteRenderer>().color = Color.blue;
-            }
-        }
-
-        #endregion
-
-
-        //
-        //mess around with foreach on double array
-
 
     }
 
     public bool DetermineIfCellIsAliveNextGeneration(int x, int y)
     {
+
+        #region CountNeighbours
+
         int liveNeighbourCount = 0;
 
         if (x < GridSizeX - 2)
@@ -162,10 +144,6 @@ public class Manager : MonoBehaviour
                 liveNeighbourCount++;
         }
 
-
-
-
-
         if (x < GridSizeX - 2 && y < GridSizeY - 2)
         {
             if (gridData[x + 1, y + 1].isAlive)
@@ -190,40 +168,23 @@ public class Manager : MonoBehaviour
                 liveNeighbourCount++;
         }
 
-
+        #endregion
 
         bool cellIsAlive = gridData[x, y].isAlive;
 
-        //Debug.Log("liveNeighbourCount == " + liveNeighbourCount);
-
         if (cellIsAlive && liveNeighbourCount < 2)
-        {
-            Debug.Log("assumpiton check 1");
             return false;
-        }
         else if (cellIsAlive && (liveNeighbourCount == 2 || liveNeighbourCount == 3))
-        {
-            Debug.Log("assumpiton check 2");
             return true;
-        }
         else if (cellIsAlive && liveNeighbourCount > 3)
-        {
-            Debug.Log("assumpiton check 3");
             return false;
-        }
         else if (!cellIsAlive && liveNeighbourCount == 3)
-        {
-            Debug.Log("assumpiton check 4");
             return true;
-        }
-
 
         // Any live cell with fewer than two live neighbours dies, as if by underpopulation.
         // Any live cell with two or three live neighbours lives on to the next generation.
         // Any live cell with more than three live neighbours dies, as if by overpopulation.
         // Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
-
-
 
         // if(liveNeighbourCount < 2)
         //     return false;
@@ -234,8 +195,23 @@ public class Manager : MonoBehaviour
         // else if(liveNeighbourCount > 3)
         //     return false;
 
-
         return false;
+    }
+
+    public void UpdateVisualsFromModelData()
+    {
+        generationNumberText.text = "Generation #" + generationNumber;
+
+        for (int x = 0; x < GridSizeX; x++)
+        {
+            for (int y = 0; y < GridSizeX; y++)
+            {
+                if (gridData[x, y].isAlive)
+                    gridVisuals[x, y].GetComponent<SpriteRenderer>().color = Color.white;
+                else
+                    gridVisuals[x, y].GetComponent<SpriteRenderer>().color = Color.blue;
+            }
+        }
     }
 
 }
@@ -246,5 +222,4 @@ public class CellData
     public bool isAlive;
     public bool isAliveNextGeneration;
 }
-
 
