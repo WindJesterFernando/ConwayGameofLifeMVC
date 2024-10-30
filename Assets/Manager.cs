@@ -67,16 +67,16 @@ public class Manager : MonoBehaviour
         gridData[11, 7].isAlive = true;
 
         //Correct pattern
-        gridData[1, 15].isAlive = true;
-        gridData[2, 15].isAlive = true;
-        gridData[3, 15].isAlive = true;
-        gridData[4, 15].isAlive = true;
+        gridData[1, 19].isAlive = true;
+        gridData[2, 19].isAlive = true;
+        gridData[3, 19].isAlive = true;
+        gridData[4, 19].isAlive = true;
 
         //Top edge case test
-        gridData[6, 18].isAlive = true;
-        gridData[7, 18].isAlive = true;
-        gridData[8, 18].isAlive = true;
-        gridData[9, 18].isAlive = true;
+        gridData[18, 1].isAlive = true;
+        gridData[18, 2].isAlive = true;
+        gridData[18, 3].isAlive = true;
+        gridData[18, 4].isAlive = true;
 
         // gridData[4, 4].isAlive = true;
         // gridData[3, 4].isAlive = true;
@@ -133,14 +133,14 @@ public class Manager : MonoBehaviour
         int liveNeighbourCount = 0;
 
         // Right
-        if (x < GridSizeX - 2)
+        if (x < GridSizeX - 1)
         {
             if (gridData[x + 1, y].isAlive)
                 liveNeighbourCount++;
         }
 
         // Top
-        if (y < GridSizeY - 2)
+        if (y < GridSizeY - 1)
         {
             if (gridData[x, y + 1].isAlive)
                 liveNeighbourCount++;
@@ -161,7 +161,7 @@ public class Manager : MonoBehaviour
         }
 
         // Right Top
-        if (x < GridSizeX - 2 && y < GridSizeY - 2)
+        if (x < GridSizeX - 1 && y < GridSizeY - 1)
         {
             if (gridData[x + 1, y + 1].isAlive)
                 liveNeighbourCount++;
@@ -175,14 +175,14 @@ public class Manager : MonoBehaviour
         }
 
         // Right Bottom
-        if (x < GridSizeX - 2 && y > 0)
+        if (x < GridSizeX - 1 && y > 0)
         {
             if (gridData[x + 1, y - 1].isAlive)
                 liveNeighbourCount++;
         }
 
         // Top Left
-        if (x > 0 && y < GridSizeY - 2)
+        if (x > 0 && y < GridSizeY - 1)
         {
             if (gridData[x - 1, y + 1].isAlive)
                 liveNeighbourCount++;
