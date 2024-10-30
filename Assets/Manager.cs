@@ -66,6 +66,18 @@ public class Manager : MonoBehaviour
         gridData[11, 6].isAlive = true;
         gridData[11, 7].isAlive = true;
 
+        //Correct pattern
+        gridData[1, 15].isAlive = true;
+        gridData[2, 15].isAlive = true;
+        gridData[3, 15].isAlive = true;
+        gridData[4, 15].isAlive = true;
+
+        //Top edge case test
+        gridData[6, 18].isAlive = true;
+        gridData[7, 18].isAlive = true;
+        gridData[8, 18].isAlive = true;
+        gridData[9, 18].isAlive = true;
+
         // gridData[4, 4].isAlive = true;
         // gridData[3, 4].isAlive = true;
 
@@ -120,48 +132,56 @@ public class Manager : MonoBehaviour
 
         int liveNeighbourCount = 0;
 
+        // Right
         if (x < GridSizeX - 2)
         {
             if (gridData[x + 1, y].isAlive)
                 liveNeighbourCount++;
         }
 
+        // Top
         if (y < GridSizeY - 2)
         {
             if (gridData[x, y + 1].isAlive)
                 liveNeighbourCount++;
         }
 
+        // Left
         if (x > 0)
         {
             if (gridData[x - 1, y].isAlive)
                 liveNeighbourCount++;
         }
 
+        // Bottom
         if (y > 0)
         {
             if (gridData[x, y - 1].isAlive)
                 liveNeighbourCount++;
         }
 
+        // Right Top
         if (x < GridSizeX - 2 && y < GridSizeY - 2)
         {
             if (gridData[x + 1, y + 1].isAlive)
                 liveNeighbourCount++;
         }
 
+        // Left Bottom
         if (x > 0 && y > 0)
         {
             if (gridData[x - 1, y - 1].isAlive)
                 liveNeighbourCount++;
         }
 
+        // Right Bottom
         if (x < GridSizeX - 2 && y > 0)
         {
             if (gridData[x + 1, y - 1].isAlive)
                 liveNeighbourCount++;
         }
 
+        // Top Left
         if (x > 0 && y < GridSizeY - 2)
         {
             if (gridData[x - 1, y + 1].isAlive)
